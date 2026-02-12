@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Per te ❤️</title>
+  <style>
+    :root{
+      --bg1:#0b1020;
+      --bg2:#1a0b1e;
+      --card:#ffffff0f;
+      --stroke:#ffffff1f;
+      --txt:#f8f8ff;
+      --muted:#cfd3ffcc;
+      --yes:#ff4d8d;
+      --yes2:#ff2d6f;
+      --no:#ffffff1a;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100svh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--txt);
+      overflow:hidden;
+      background:
+        radial-gradient(1100px 700px at 20% 20%, #ff4d8d33, transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, #8b5cf633, transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+
+    /* cuoricini floating */
+    .hearts{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:0;
+    }
+    .heart{
+      position:absolute;
+      width:14px;
+      height:14px;
+      transform: rotate(45deg);
+      background: linear-gradient(180deg, #ff73a8, #ff2d6f);
+      opacity:.85;
+      filter: drop-shadow(0 6px 14px #ff2d6f44);
+      animation: floatUp linear forwards;
+      border-radius:3px;
+    }
+    .heart::before,
+    .heart::after{
+      content:"";
+      position:absolute;
+      width:14px;height:14px;
+      background: inherit;
+      border-radius:50%;
+    }
+    .heart::before{ left:-7px; top:0; }
+    .heart::after{ left:0; top:-7px; }
+
+    @keyframes floatUp{
+      from{ transform: translateY(0) rotate(45deg) scale(var(--s,1)); }
+      to{ transform: translateY(-120vh) rotate(45deg) scale(var(--s,1)); opacity:0; }
+    }
+
+    .wrap{
+      position:relative;
+      z-index:1;
+      width:min(520px, 92vw);
+    }
+    .card{
+      background: var(--card);
+      border:1px solid var(--stroke);
+      border-radius:24px;
+      padding:26px 22px 22px;
+      box-shadow: 0 25px 70px #00000066;
+      backdrop-filter: blur(10px);
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#ffffff12;
+      border:1px solid #ffffff1f;
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:14px;
+    }
+    .pulse{
+      width:10px;height:10px;border-radius:50%;
+      background: var(--yes);
+      box-shadow: 0 0 0 0 #ff4d8d66;
+      animation:pulse 1.2s infinite;
+    }
+    @keyframes pulse{
+      0%{ box-shadow: 0 0 0 0 #ff4d8d66; }
+      70%{ box-shadow: 0 0 0 14px transparent; }
+      100%{ box-shadow: 0 0 0 0 transparent; }
+    }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(26px, 4.2vw, 38px);
+      line-height:1.05;
+      letter-spacing:-0.02em;
+    }
+    p{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size: 15.5px;
+      line-height:1.45;
+    }
+
+    .big-heart{
+      width:84px;height:84px;
+      margin:18px auto 10px;
+      position:relative;
+      transform: rotate(45deg);
+      background: linear-gradient(180deg, #ff73a8, #ff2d6f);
+      border-radius:18px;
+      filter: drop-shadow(0 14px 24px #ff2d6f3d);
+      animation: bob 1.8s ease-in-out infinite;
+    }
+    .big-heart::before,.big-heart::after{
+      content:"";
+      position:absolute;
+      width:84px;height:84px;
+      background: inherit;
+      border-radius:50%;
+    }
+    .big-heart::before{ left:-42px; top:0; }
+    .big-heart::after{ left:0; top:-42px; }
+
+    @keyframes bob{
+      0%,100%{ transform: translateY(0) rotate(45deg) scale(1); }
+      50%{ transform: translateY(-6px) rotate(45deg) scale(1.03); }
+    }
+
+    .question{
+      text-align:center;
+      margin-top:6px;
+      font-size: clamp(18px, 3.4vw, 22px);
+      color:#ffffffee;
+      font-weight:650;
+    }
+
+    .btns{
+      margin-top:18px;
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+      position:relative;
+    }
+    button{
+      border:0;
+      border-radius:16px;
+      padding:13px 16px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      transition: transform .12s ease, filter .12s ease, background .12s ease;
+      min-width:150px;
+      user-select:none;
+    }
+    #yesBtn{
+      background: linear-gradient(180deg, var(--yes), var(--yes2));
+      color:white;
+      box-shadow: 0 16px 30px #ff2d6f44;
+    }
+    #yesBtn:hover{ transform: translateY(-1px) scale(1.02); filter:brightness(1.05); }
+    #noBtn{
+      background: var(--no);
+      color:#ffffffdd;
+      border:1px solid #ffffff1f;
+      backdrop-filter: blur(10px);
+      position:relative;
+    }
+    #noBtn:hover{ transform: translateY(-1px); }
+
+    .footer{
+      text-align:center;
+      margin-top:14px;
+      color:#ffffffaa;
+      font-size:12.5px;
+    }
+
+    /* schermata finale */
+    .overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      background: radial-gradient(900px 600px at 50% 35%, #ff4d8d33, transparent 60%),
+                  linear-gradient(135deg, #0b1020cc, #1a0b1ecc);
+      z-index:10;
+      padding:24px;
+    }
+    .overlay .done{
+      width:min(560px, 92vw);
+      background: #ffffff12;
+      border:1px solid #ffffff26;
+      border-radius:26px;
+      padding:26px 22px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 30px 80px #00000077;
+      text-align:center;
+    }
+    .done h2{
+      margin:0 0 10px;
+      font-size: clamp(24px, 4vw, 34px);
+    }
+    .done p{ margin:0 0 16px; }
+    .done .small{
+      font-size:13px;
+      opacity:.85;
+    }
+    .chip{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid #ffffff24;
+      background:#ffffff10;
+      font-weight:650;
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="badge"><span class="pulse"></span> modalità San Valentino attiva</div>
+
+      <div class="big-heart" aria-hidden="true"></div>
+
+      <h1 id="title">Ehi amore ❤️</h1>
+      <p id="subtitle">
+        Ho una domanda importantissima… e prometto che non vale barare 😌
+      </p>
+
+      <div class="question" id="question">Vuoi essere la mia Valentine?</div>
+
+      <div class="btns" id="btnArea">
+        <button id="yesBtn">Sììì 💘</button>
+        <button id="noBtn">No 🙈</button>
+      </div>
+
+      <div class="footer">Suggerimento: aprilo a schermo intero 😉</div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="done">
+      <div class="chip">💞 Confermato! 💞</div>
+      <h2 id="finalTitle">Sapevo che avresti detto sì 😭❤️</h2>
+      <p id="finalText">Adesso sei ufficialmente la mia Valentine. Preparati a essere viziata.</p>
+      <p class="small">P.S. Questo è solo l’inizio 😏</p>
+    </div>
+  </div>
+
+  <script>
+    // Personalizza qui (facoltativo)
+    const NOME = "Ilaria"; 
+    const FIRMA = ""; // es: "— Il tuo ragazzo"
+
+    const title = document.getElementById("title");
+    const subtitle = document.getElementById("subtitle");
+    const finalText = document.getElementById("finalText");
+
+    if (NOME.trim()) {
+      title.textContent = `Ehi ${NOME} ❤️`;
+    }
+    if (FIRMA.trim()) {
+      finalText.textContent += ` ${FIRMA}`;
+    }
+
+    // cuoricini che salgono
+    const hearts = document.getElementById("hearts");
+    function spawnHeart(){
+      const h = document.createElement("div");
+      h.className = "heart";
+      const left = Math.random() * 100;
+      const dur = 4 + Math.random() * 4.5; // 4–8.5s
+      const size = 0.7 + Math.random() * 1.6;
+      h.style.left = left + "vw";
+      h.style.bottom = (-10 - Math.random()*20) + "vh";
+      h.style.animationDuration = dur + "s";
+      h.style.setProperty("--s", size.toFixed(2));
+      hearts.appendChild(h);
+      setTimeout(()=>h.remove(), dur*1000);
+    }
+    setInterval(spawnHeart, 240);
+    for(let i=0;i<10;i++) setTimeout(spawnHeart, i*120);
+
+    // Bottoni: il "no" scappa
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const overlay = document.getElementById("overlay");
+    const btnArea = document.getElementById("btnArea");
+
+    let noTries = 0;
+
+    function moveNoButton(){
+      noTries++;
+
+      // dopo un po' diventa sempre più difficile premere "No"
+      const scale = Math.max(0.55, 1 - noTries * 0.08);
+      noBtn.style.transform = `scale(${scale})`;
+
+      const areaRect = btnArea.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const maxX = areaRect.width - btnRect.width;
+      const maxY = 120; // quanto può “saltare” in altezza
+
+      const x = Math.random() * Math.max(0, maxX);
+      const y = (Math.random() * maxY) - 40;
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    // desktop: al passaggio del mouse
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    // mobile: quando provi a toccarlo
+    noBtn.addEventListener("touchstart", (e)=>{ e.preventDefault(); moveNoButton(); }, {passive:false});
+    noBtn.addEventListener("click", (e)=>{ e.preventDefault(); moveNoButton(); });
+
+    // Sì = finale
+    yesBtn.addEventListener("click", ()=>{
+      overlay.style.display = "grid";
+      // effetto “pioggia di cuori”
+      for(let i=0;i<50;i++){
+        setTimeout(spawnHeart, i*35);
+      }
+    });
+
+    // click su overlay per chiudere (opzionale)
+    overlay.addEventListener("click", ()=>{
+      overlay.style.display = "none";
+    });
+  </script>
+</body>
+</html>
