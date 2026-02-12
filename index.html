@@ -32,39 +32,44 @@
       padding:24px;
     }
 
-    /* cuoricini floating */
-    .hearts{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      overflow:hidden;
-      z-index:0;
-    }
-    .heart{
-      position:absolute;
-      width:14px;
-      height:14px;
-      transform: rotate(45deg);
-      background: linear-gradient(180deg, #ff73a8, #ff2d6f);
-      opacity:.85;
-      filter: drop-shadow(0 6px 14px #ff2d6f44);
+    .floating-heart{
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      opacity: .85;
       animation: floatUp linear forwards;
-      border-radius:3px;
+      filter: drop-shadow(0 6px 14px #2196f366);
+      pointer-events: none;
+      z-index: 0;           /* sotto la card (che è z-index:1) */
     }
-    .heart::before,
-    .heart::after{
-      content:"";
-      position:absolute;
-      width:14px;height:14px;
-      background: inherit;
-      border-radius:50%;
+
+
+    .floating-heart svg{
+      width: 100%;
+      height: 100%;
+      display: block;
     }
-    .heart::before{ left:-7px; top:0; }
-    .heart::after{ left:0; top:-7px; }
+
+
+    /* cuoricini floating */
+    
+    .hearts{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
 
     @keyframes floatUp{
-      from{ transform: translateY(0) rotate(45deg) scale(var(--s,1)); }
-      to{ transform: translateY(-120vh) rotate(45deg) scale(var(--s,1)); opacity:0; }
+      from{
+        transform: translateY(0) scale(var(--s,1));
+        opacity: .9;
+      }
+      to{
+        transform: translateY(-130vh) scale(var(--s,1));
+        opacity: 0;
+      }
     }
 
     .wrap{
@@ -117,30 +122,26 @@
       line-height:1.45;
     }
 
-    .big-heart{
-      width:84px;height:84px;
-      margin:18px auto 10px;
-      position:relative;
-      transform: rotate(45deg);
-      background: linear-gradient(180deg, #ff73a8, #ff2d6f);
-      border-radius:18px;
-      filter: drop-shadow(0 14px 24px #ff2d6f3d);
+    .big-heart-wrap{
+      width: 110px;
+      height: 110px;
+      margin: 18px auto 10px; 
+      display:grid;
+      place-items:center;
       animation: bob 1.8s ease-in-out infinite;
     }
-    .big-heart::before,.big-heart::after{
-      content:"";
-      position:absolute;
-      width:84px;height:84px;
-      background: inherit;
-      border-radius:50%;
+
+    .big-heart-svg{
+      width: 100%;
+      height: 100%;
+      display:block;
     }
-    .big-heart::before{ left:-42px; top:0; }
-    .big-heart::after{ left:0; top:-42px; }
 
     @keyframes bob{
-      0%,100%{ transform: translateY(0) rotate(45deg) scale(1); }
-      50%{ transform: translateY(-6px) rotate(45deg) scale(1.03); }
+      0%,100%{ transform: translateY(0) scale(1); }
+      50%{ transform: translateY(-6px) scale(1.03); }
     }
+
 
     .question{
       text-align:center;
@@ -231,6 +232,19 @@
       background:#ffffff10;
       font-weight:650;
     }
+
+    .final-logo{
+      display:block;
+      margin: 14px auto 10px;
+      width: min(180px, 55vw);
+      height: auto;
+      border-radius: 18px;
+      background: #ffffff10;        /* carino se png trasparente */
+      border: 1px solid #ffffff24;
+      padding: 10px;
+      box-shadow: 0 18px 40px #00000055;
+    }
+
   </style>
 </head>
 <body>
@@ -240,9 +254,44 @@
     <div class="card">
       <div class="badge"><span class="pulse"></span> modalità San Valentino attiva</div>
 
-      <div class="big-heart" aria-hidden="true"></div>
+      <div class="big-heart-wrap" aria-hidden="true">
+        <svg class="big-heart-svg" viewBox="0 0 512 512">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#9be7ff"/>
+              <stop offset="55%" stop-color="#4fc3f7"/>
+              <stop offset="100%" stop-color="#2196f3"/>
+            </linearGradient>
+            <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="8" result="b"/>
+              <feColorMatrix in="b" type="matrix"
+                values="0.4 0 0 0 0
+                        0 0.8 0 0 0
+                        0 0 0.9 0 0
+                        0 0 0 0.9 0" result="c"/>
+              <feMerge>
+                <feMergeNode in="c"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
 
-      <h1 id="title">Ehi amore ❤️</h1>
+          <!-- cuore -->
+          <path filter="url(#glow)" fill="url(#g)"
+            d="M256 469s-31-22-62-45c-74-55-150-119-150-202
+              0-63 47-112 110-112 41 0 76 21 102 55
+              26-34 61-55 102-55 63 0 110 49 110 112
+              0 83-76 147-150 202-31 23-62 45-62 45z"/>
+
+          <!-- lucina (shine) -->
+          <path fill="#ffffff33"
+            d="M170 185c10-28 35-46 66-46 8 0 14 6 14 14s-6 14-14 14
+              c-19 0-33 10-40 28-3 7-11 10-18 7s-10-11-8-17z"/>
+        </svg>
+      </div>
+
+
+      <h1 id="title">Ehi amore 🩵 </h1>
       <p id="subtitle">
         Ho una domanda importantissima… e prometto che non vale barare 😌
       </p>
@@ -250,34 +299,44 @@
       <div class="question" id="question">Vuoi essere la mia Valentine?</div>
 
       <div class="btns" id="btnArea">
-        <button id="yesBtn">Sììì 💘</button>
+        <button id="yesBtn">Sììì 🩵</button>
         <button id="noBtn">No 🙈</button>
       </div>
 
-      <div class="footer">Suggerimento: aprilo a schermo intero 😉</div>
     </div>
   </div>
 
   <div class="overlay" id="overlay">
     <div class="done">
       <div class="chip">💞 Confermato! 💞</div>
-      <h2 id="finalTitle">Sapevo che avresti detto sì 😭❤️</h2>
-      <p id="finalText">Adesso sei ufficialmente la mia Valentine. Preparati a essere viziata.</p>
-      <p class="small">P.S. Questo è solo l’inizio 😏</p>
+
+      <!-- Logo al centro -->
+      <img
+        src="logo_pulcinella.png"
+        alt="Logo Ristorante Pulcinella"
+        class="final-logo"
+      />
+
+      <h2 id="finalTitle">Sapevo che avresti detto sì 😭🩵</h2>
+      <p id="finalText">Sei ufficialmente invitata al Ristorante <strong>Pulcinella</strong> alle <strong>20:30</strong>🍕🩵</p>
+      <p class="small">prometto solennemnete qui ed ora, che non guarderò la partita(ci provo 🙄)</p>
+      <p class="small">conoscendoti so che già vorrai guardare il menu quindi eccoti un link utile</p>
+      <button><a style="text-decoration: none; color: black;" href="https://www.leggimenu.it/menu/pulcinella">Cliccami se hai fame</a></button>
     </div>
   </div>
+
 
   <script>
     // Personalizza qui (facoltativo)
     const NOME = "Ilaria"; 
-    const FIRMA = ""; // es: "— Il tuo ragazzo"
+    const FIRMA = "Matthias"; // es: "— Il tuo ragazzo"
 
     const title = document.getElementById("title");
     const subtitle = document.getElementById("subtitle");
     const finalText = document.getElementById("finalText");
 
     if (NOME.trim()) {
-      title.textContent = `Ehi ${NOME} ❤️`;
+      title.textContent = `Ehi ${NOME} 🩵`;
     }
     if (FIRMA.trim()) {
       finalText.textContent += ` ${FIRMA}`;
@@ -285,17 +344,39 @@
 
     // cuoricini che salgono
     const hearts = document.getElementById("hearts");
-    function spawnHeart(){
+   function spawnHeart(){
       const h = document.createElement("div");
-      h.className = "heart";
+      h.className = "floating-heart";
+
       const left = Math.random() * 100;
-      const dur = 4 + Math.random() * 4.5; // 4–8.5s
-      const size = 0.7 + Math.random() * 1.6;
+      const dur = 5 + Math.random() * 5;
+      const size = 0.7 + Math.random() * 1.4;
+
       h.style.left = left + "vw";
       h.style.bottom = (-10 - Math.random()*20) + "vh";
       h.style.animationDuration = dur + "s";
-      h.style.setProperty("--s", size.toFixed(2));
+      h.style.transform = `scale(${size})`;
+
+      h.innerHTML = `
+      <svg viewBox="0 0 512 512">
+        <defs>
+          <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#9be7ff"/>
+            <stop offset="55%" stop-color="#4fc3f7"/>
+            <stop offset="100%" stop-color="#2196f3"/>
+          </linearGradient>
+        </defs>
+
+        <path fill="url(#g2)"
+          d="M256 469s-31-22-62-45c-74-55-150-119-150-202
+            0-63 47-112 110-112 41 0 76 21 102 55
+            26-34 61-55 102-55 63 0 110 49 110 112
+            0 83-76 147-150 202-31 23-62 45-62 45z"/>
+      </svg>
+      `;
+
       hearts.appendChild(h);
+
       setTimeout(()=>h.remove(), dur*1000);
     }
     setInterval(spawnHeart, 240);
